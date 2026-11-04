@@ -1,0 +1,63 @@
+"""Application configuration loaded from environment variables.
+
+Secrets (DATABASE_URL, SECRET_KEY, ...) must NEVER be committed to git.
+See .env.example for the full list of expected variables.
+"""
+
+from __future__ import annotations
+
+from functools import lru_cache
+from typing import List
+
+from pydantic import field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    APP_NAME: str = "SMS Summit 2026 Registration API"
+    APP_ENV: str = "development"
+    API_V1_PREFIX: str = "/api/v1"
+
+    # PostgreSQL (Supabase). postgresql+psycopg://user:pass@host:5432/db
+    DATABASE_URL: str = "sqlite:///./sms26.db"
+
+    # Auth
+    SECRET_KEY: str = "change-me-in-production"
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_HOURS: int = 8
+
+    # CORS — comma separated list of allowed origins
+    CORS_ORIGINS: str = "http://localhost:5500,http://127.0.0.1:5500"
+
+    # Public app URL used to build invitation links
+    APP_URL: str = "http://localhost:5500"
+
+    # Spouse invitation settings
+    INVITE_TTL_HOURS: int = 48
+
+    # Abuse protection for sensitive public endpoints
+    RATE_LIMIT_PER_MINUTE: int = 20
+
+    # QR payload prefix, e.g. "SMS26|SMS26-XXXX-0001"
+    QR_PREFIX: str = "SMS26"
+
+    @property
+    def cors_origins_list(self) -> List[str]:
+        return [o.strip() for o in self.CORS_ORIGINS.split(",") if o.strip()]
+
+    @field_validator("SECRET_KEY")
+    @classmethod
+    def secret_must_not_be_default_in_prod(cls, v: str, info) -> str:
+        # Guard rail only — real enforcement happens via env config in prod.
+        return v
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()

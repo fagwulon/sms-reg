@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Register — Singles &amp; Married Summit 2026</title>
+<meta name="description" content="Reserve your seat at the Singles & Married Summit 2026. Free registration, instant QR ticket, optional secure spouse linking." />
+<meta name="theme-color" content="#120607" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23650a10'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-style='italic' fill='%23fbf4ec' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" />
+
+<link rel="preload" href="assets/fonts/playfair-var.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="assets/css/base.css?v=1" />
+<link rel="stylesheet" href="assets/css/shell.css?v=1" />
+<link rel="stylesheet" href="assets/css/pages.css?v=3" />
+</head>
+<body>
+
+<div id="preloader" aria-hidden="true">
+  <div class="pl-mark">
+    <img class="pl-mark-img" src="assets/img/wordmark.webp" alt="" width="1050" height="500" />
+    <div class="pl-bar"><i></i></div>
+    <div class="pl-label">Securing your seat</div>
+  </div>
+</div>
+
+<canvas id="petals" aria-hidden="true"></canvas>
+<div id="scroll-progress" aria-hidden="true"></div>
+<div id="veil" aria-hidden="true"><img class="v-mark-img" src="assets/img/wordmark.webp" alt="" width="1050" height="500" /></div>
+
+<header class="nav" data-nav>
+  <div class="nav__inner">
+    <a class="brand" href="index.html" aria-label="Singles and Married Summit 2026 — home">
+      <img class="brand__mark" src="assets/img/wordmark.webp" alt="SMS — Singles and Married Summit" width="1050" height="500" />
+      <span class="brand__divider" aria-hidden="true"></span>
+      <span class="brand__meta">
+        <b>SUMMIT 2026</b>
+        <span>The Marital Blueprint</span>
+      </span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a class="nav__link" href="index.html">Home</a>
+      <a class="nav__link" href="index.html#summit">The Summit</a>
+      <a class="nav__link" href="register.html" aria-current="page">Register</a>
+      <a class="nav__link" href="lookup.html">Find my ticket</a>
+      <a class="nav__link" href="index.html#faq">FAQ</a>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="btn btn--ghost btn--sm" href="admin/index.html">Organizers</a>
+      <a class="btn btn--sm" href="lookup.html"><svg><use href="#i-ticket" /></svg> My ticket</a>
+      <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" data-burger>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" data-drawer aria-hidden="true">
+  <nav class="drawer__links" aria-label="Mobile">
+    <a class="drawer__link" href="index.html"><small>01</small> Home</a>
+    <a class="drawer__link" href="index.html#summit"><small>02</small> The Summit</a>
+    <a class="drawer__link" href="register.html"><small>03</small> Register</a>
+    <a class="drawer__link" href="lookup.html"><small>04</small> Find my ticket</a>
+    <a class="drawer__link" href="admin/index.html"><small>05</small> Organizers</a>
+  </nav>
+  <div class="drawer__foot">
+    <p class="tiny muted">15th November 2026 · 4PM WAT<br />Top Floor, Elyon Primary School, Rumuorosi</p>
+    <a class="btn btn--block" href="register.html">Reserve my seat</a>
+  </div>
+</div>
+
+<main id="main">
+<section class="reg-page">
+  <div class="reg-page__bg" aria-hidden="true"></div>
+
+  <div class="container reg-layout">
+    <!-- ── ASIDE ── -->
+    <aside class="reg-aside">
+      <div class="reg-aside__card">
+        <img src="assets/img/flyer-hero.jpg" alt="Singles and Married Summit 2026 flyer" width="1280" height="703" />
+        <div class="reg-aside__overlay">
+          <span class="chip">Free entry</span>
+          <div class="script">Welcome to SMS</div>
+          <p>15th November 2026 · 4PM WAT<br />Top Floor, Elyon Primary School, Rumuorosi</p>
+        </div>
+      </div>
+
+      <div class="reg-aside__note">
+        <svg><use href="#i-shield" /></svg>
+        <div>Your details are used only for summit planning and your ticket. We never sell attendee data.</div>
+      </div>
+
+      <div class="reg-aside__note" style="align-items:flex-start">
+        <svg><use href="#i-heart" /></svg>
+        <div>
+          <b style="display:block;margin-bottom:.3rem;color:var(--cream-100)">Married? Bring your spouse.</b>
+          You'll both register separately, then link with a secure invitation — two tickets, one household.
+        </div>
+      </div>
+
+      <div class="reg-aside__note">
+        <svg><use href="#i-clock" /></svg>
+        <div>Already registered? <a class="link-arrow" href="lookup.html" style="display:inline">Find your ticket <svg width="13" height="13" viewBox="0 0 24 24"><use href="#i-arrow" /></svg></a></div>
+      </div>
+    </aside>
+
+    <!-- ── FORM CARD ── -->
+    <div class="reg-card">
+      <div class="reg-card__head">
+        <span class="chip chip--live">Registration open</span>
+        <h1 class="reg-card__title">Reserve your seat</h1>
+        <p class="muted" style="font-size:.88rem">Takes about two minutes. You'll receive your registration ID and QR ticket instantly.</p>
+      </div>
+
+      <!-- steps -->
+      <div class="reg-steps" data-steps aria-label="Registration progress">
+        <div class="reg-step is-active" data-stepbar="1">
+          <span class="reg-step__bar"></span>
+          <span class="reg-step__label">1 · About you</span>
+        </div>
+        <div class="reg-step" data-stepbar="2">
+          <span class="reg-step__bar"></span>
+          <span class="reg-step__label">2 · Attendance</span>
+        </div>
+        <div class="reg-step" data-stepbar="3">
+          <span class="reg-step__bar"></span>
+          <span class="reg-step__label">3 · Review</span>
+        </div>
+      </div>
+
+      <form class="reg-form" data-reg-form novalidate>
+        <!-- ░░░ STEP 1 ░░░ -->
+        <section class="form-step is-active" data-step="1" aria-labelledby="step1-title">
+          <h2 class="form-section-title" id="step1-title"><svg><use href="#i-user" /></svg> About you</h2>
+
+          <div class="form-grid">
+            <div class="field col-span-2" data-field="full_name">
+              <label for="full_name">Full name <span class="req">*</span></label>
+              <input class="input" id="full_name" name="full_name" type="text" autocomplete="name"
+                     placeholder="e.g. Chinedu Okafor" required minlength="3" maxlength="90" />
+              <span class="field-error" data-error></span>
+            </div>
+
+            <div class="field" data-field="email">
+              <label for="email">Email address <span class="req">*</span></label>
+              <input class="input" id="email" name="email" type="email" autocomplete="email"
+                     placeholder="you@example.com" required />
+              <span class="field-error" data-error></span>
+            </div>
+
+            <div class="field" data-field="phone">
+              <label for="phone">Phone number <span class="req">*</span></label>
+              <input class="input" id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"
+                     placeholder="+234 803 123 4567" required />
+              <span class="field-error" data-error></span>
+            </div>
+
+            <div class="field col-span-2" data-field="gender">
+              <span class="field-label" id="gender-label">Gender <span class="req">*</span></span>
+              <div class="choice-grid" role="radiogroup" aria-labelledby="gender-label">
+                <label class="choice">
+                  <input type="radio" name="gender" value="male" required />
+                  <span class="choice__top">
+                    <span class="choice__icon"><svg><use href="#i-male" /></svg></span>
+                    <b>Male</b>
+                  </span>
+                  <span>Registering as a man</span>
+                </label>
+                <label class="choice">
+                  <input type="radio" name="gender" value="female" required />
+                  <span class="choice__top">
+                    <span class="choice__icon"><svg><use href="#i-female" /></svg></span>
+                    <b>Female</b>
+                  </span>
+                  <span>Registering as a woman</span>
+                </label>
+              </div>
+              <span class="field-error" data-error></span>
+            </div>
+
+            <div class="field col-span-2" data-field="marital_status">
+              <span class="field-label" id="marital-label">Marital status <span class="req">*</span></span>
+              <div class="segmented" data-segmented data-value="" role="radiogroup" aria-labelledby="marital-label">
+                <span class="segmented__thumb" aria-hidden="true"></span>
+                <label><input type="radio" name="marital_status" value="single" required />Single</label>
+                <label><input type="radio" name="marital_status" value="married" required />Married</label>
+              </div>
+              <span class="field-error" data-error></span>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <span class="form-actions__fine"><svg><use href="#i-lock" /></svg> Encrypted in transit</span>
+            <div class="right">
+              <button class="btn" type="button" data-next>
+                Continue <svg><use href="#i-arrow" /></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ░░░ STEP 2 ░░░ -->
+        <section class="form-step" data-step="2" aria-labelledby="step2-title">
+          <h2 class="form-section-title" id="step2-title"><svg><use href="#i-sparkle" /></svg> Your attendance</h2>
+
+          <div class="form-grid">
+            <div class="field" data-field="occupation">
+              <label for="occupation">Field / occupation <span class="req">*</span></label>
+              <select class="select" id="occupation" name="occupation" required>
+                <option value="">Select your field</option>
+                <option>Student</option>
+                <option>Tech / Engineering</option>
+                <option>Business / Finance</option>
+                <option>Health / Medicine</option>
+                <option>Education / Ministry</option>
+                <option>Legal / Policy</option>
+                <option>Media &amp; Arts</option>
+                <option>Real Estate</option>
+                <option>Civil Service / Public Sector</option>
+                <option>Fashion / Beauty</option>
+                <option>Other</option>
+              </select>
+              <span class="field-error" data-error></span>
+            </div>
+
+            <div class="field" data-field="age_range">
+              <label for="age_range">Age range <span class="req">*</span></label>
+              <select class="select" id="age_range" name="age_range" required>
+                <option value="">Select your age range</option>
+                <option>18-25</option>
+                <option>26-32</option>
+                <option>33-39</option>
+                <option>40-49</option>
+                <option>50+</option>
+              </select>
+              <span class="field-error" data-error></span>
+            </div>
+
+            <div class="field" data-field="city">
+              <label for="city">City / area</label>
+              <input class="input" id="city" name="city" type="text" placeholder="e.g. Port Harcourt" autocomplete="address-level2" />
+              <span class="field-error" data-error></span>
+            </div>
+
+            <div class="field" data-field="expectations">
+              <label for="expectations">What do you hope to gain?</label>
+              <input class="input" id="expectations" name="expectations" type="text" placeholder="Optional — one line" maxlength="160" />
+              <span class="field-error" data-error></span>
+            </div>
+          </div>
+
+          <h2 class="form-section-title" style="margin-top:.4rem"><svg><use href="#i-phone" /></svg> Emergency contact <span style="font-family:var(--font-body);letter-spacing:0;text-transform:none;font-size:.7rem;color:var(--white-40)">(optional)</span></h2>
+          <div class="form-grid">
+            <div class="field" data-field="emergency_contact_name">
+              <label for="emergency_contact_name">Contact name</label>
+              <input class="input" id="emergency_contact_name" name="emergency_contact_name" type="text" placeholder="Who should we call?" />
+              <span class="field-error" data-error></span>
+            </div>
+            <div class="field" data-field="emergency_contact_phone">
+              <label for="emergency_contact_phone">Contact phone</label>
+              <input class="input" id="emergency_contact_phone" name="emergency_contact_phone" type="tel" inputmode="tel" placeholder="+234 …" />
+              <span class="field-error" data-error></span>
+            </div>
+          </div>
+
+          <!-- spouse panel (married only) -->
+          <div class="spouse-panel hidden" data-spouse-panel>
+            <div class="spouse-panel__head">
+              <svg><use href="#i-heart" /></svg>
+              <div>
+                <b>Invite your spouse</b>
+                <p>Generate a secure, single-use invitation after you register. They accept it on their phone and keep their own ticket.</p>
+              </div>
+            </div>
+            <label class="check">
+              <input type="checkbox" name="wants_spouse_invite" checked data-spouse-invite />
+              <span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6.5" /></svg></span>
+              <span>Create a spouse invitation link for me after registration</span>
+            </label>
+            <p class="hint" style="margin-left:2.1rem">You can also create the link later from your ticket page. Links expire after 48 hours.</p>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn--ghost" type="button" data-back>
+              <svg style="transform:rotate(180deg)"><use href="#i-arrow" /></svg> Back
+            </button>
+            <div class="right">
+              <button class="btn" type="button" data-next>
+                Review <svg><use href="#i-arrow" /></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ░░░ STEP 3 ░░░ -->
+        <section class="form-step" data-step="3" aria-labelledby="step3-title">
+          <h2 class="form-section-title" id="step3-title"><svg><use href="#i-check-circle" /></svg> Confirm your details</h2>
+          <div class="review" data-review></div>
+
+          <label class="check" style="margin-top:.2rem">
+            <input type="checkbox" name="consent" data-consent required />
+            <span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6.5" /></svg></span>
+            <span>I confirm my details are correct and I agree to the summit's <a href="#" data-modal-open="modal-privacy" style="color:var(--champagne);text-decoration:underline">registration terms</a>.</span>
+          </label>
+          <span class="field-error" data-consent-error></span>
+
+          <div class="form-actions">
+            <button class="btn btn--ghost" type="button" data-back>
+              <svg style="transform:rotate(180deg)"><use href="#i-arrow" /></svg> Edit
+            </button>
+            <div class="right">
+              <button class="btn btn--lg" type="submit" data-submit>
+                <span data-submit-label>Complete registration</span>
+                <svg><use href="#i-check" /></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer" style="margin-top:0">
+  <div class="container">
+    <div class="footer__bottom" style="margin-top:0;border-top:0">
+      <span>© 2026 <b>The Potters Tribe</b>. Singles &amp; Married Summit 2026</span>
+      <span><a href="index.html">Home</a> · <a href="lookup.html">Find my ticket</a> · <a href="admin/index.html">Organizers</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- privacy modal -->
+<div class="modal" id="modal-privacy" role="dialog" aria-modal="true" aria-labelledby="privacy-title" aria-hidden="true">
+  <div class="modal__backdrop" data-modal-close></div>
+  <div class="modal__panel">
+    <div class="modal__head">
+      <h3 id="privacy-title" style="font-family:var(--font-display);font-weight:500;font-size:1.3rem">Registration terms</h3>
+      <button class="modal__close" type="button" aria-label="Close" data-modal-close><svg><use href="#i-x" /></svg></button>
+    </div>
+    <div class="modal__body">
+      <p class="muted" style="font-size:.9rem">Registration is free but seats are limited. Your details are used by the summit organizers to plan the event, prepare your ticket and manage check-in.</p>
+      <ul style="display:grid;gap:.5rem;font-size:.86rem;color:var(--white-60)">
+        <li>• One registration per attendee. Duplicate emails are rejected.</li>
+        <li>• Your registration ID and QR code are personal — please don't share them.</li>
+        <li>• Spouse links require explicit consent from both attendees and can be revoked before acceptance.</li>
+        <li>• Photographs may be taken at the summit for the ministry's communications.</li>
+      </ul>
+      <button class="btn" type="button" data-modal-close>I understand</button>
+    </div>
+  </div>
+</div>
+
+<button class="to-top" type="button" aria-label="Back to top"><svg><use href="#i-arrow-up" /></svg></button>
+<div id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/mock-api.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/qrcode.min.js"></script>
+<script src="assets/js/sprite.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/register.js"></script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>You're registered — SMS Summit 2026</title>
+<meta name="description" content="Your Singles & Married Summit 2026 registration is confirmed. Save your QR ticket." />
+<meta name="theme-color" content="#120607" />
+<meta name="robots" content="noindex" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23650a10'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-style='italic' fill='%23fbf4ec' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="assets/css/base.css?v=1" />
+<link rel="stylesheet" href="assets/css/shell.css?v=1" />
+<link rel="stylesheet" href="assets/css/pages.css?v=3" />
+</head>
+<body>
+
+<div id="preloader" aria-hidden="true">
+  <div class="pl-mark">
+    <img class="pl-mark-img" src="assets/img/wordmark.webp" alt="" width="1050" height="500" />
+    <div class="pl-bar"><i></i></div>
+    <div class="pl-label">Preparing your ticket</div>
+  </div>
+</div>
+
+<canvas id="petals" aria-hidden="true"></canvas>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div id="scroll-progress" aria-hidden="true"></div>
+<div id="veil" aria-hidden="true"><img class="v-mark-img" src="assets/img/wordmark.webp" alt="" width="1050" height="500" /></div>
+
+<header class="nav" data-nav>
+  <div class="nav__inner">
+    <a class="brand" href="index.html" aria-label="Home">
+      <img class="brand__mark" src="assets/img/wordmark.webp" alt="SMS — Singles and Married Summit" width="1050" height="500" />
+      <span class="brand__divider" aria-hidden="true"></span>
+      <span class="brand__meta"><b>SUMMIT 2026</b><span>The Marital Blueprint</span></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a class="nav__link" href="index.html">Home</a>
+      <a class="nav__link" href="register.html">Register</a>
+      <a class="nav__link" href="lookup.html">Find my ticket</a>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--ghost btn--sm" href="admin/index.html">Organizers</a>
+      <a class="btn btn--sm" href="register.html">Register another <svg><use href="#i-plus" /></svg></a>
+      <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" data-burger>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" data-drawer aria-hidden="true">
+  <nav class="drawer__links" aria-label="Mobile">
+    <a class="drawer__link" href="index.html"><small>01</small> Home</a>
+    <a class="drawer__link" href="register.html"><small>02</small> Register</a>
+    <a class="drawer__link" href="lookup.html"><small>03</small> Find my ticket</a>
+    <a class="drawer__link" href="admin/index.html"><small>04</small> Organizers</a>
+  </nav>
+</div>
+
+<main id="main">
+<section class="success-page">
+  <div class="success-page__bg" aria-hidden="true"></div>
+
+  <div class="container">
+    <!-- loading -->
+    <div class="success-inner" data-loading>
+      <div class="success-check" style="background:rgba(255,255,255,.08)">
+        <span class="spin" style="width:26px;height:26px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite"></span>
+      </div>
+      <h1 class="success-title">Fetching your ticket…</h1>
+      <p class="muted">One moment.</p>
+    </div>
+
+    <!-- error -->
+    <div class="success-inner hidden" data-error>
+      <div class="success-check" style="background:radial-gradient(circle at 32% 28%,#c8182a,#6a0a11)">
+        <svg viewBox="0 0 24 24" style="stroke:#fff"><use href="#i-alert" /></svg>
+      </div>
+      <h1 class="success-title">We couldn't find that ticket</h1>
+      <p class="lede" style="text-align:center" data-error-msg>The registration ID may be incorrect, or the link expired.</p>
+      <div class="success-actions">
+        <a class="btn" href="lookup.html">Look it up again <svg><use href="#i-search" /></svg></a>
+        <a class="btn btn--ghost" href="register.html">Register now</a>
+      </div>
+    </div>
+
+    <!-- content -->
+    <div class="success-inner hidden" data-content>
+      <div class="success-check">
+        <svg viewBox="0 0 24 24"><use href="#i-check" /></svg>
+      </div>
+      <h1 class="success-title">You're in. <span class="script">Welcome.</span></h1>
+      <p class="lede" style="text-align:center" data-confirm-msg>
+        Your seat at the Singles &amp; Married Summit 2026 is reserved. Show this QR at the door.
+      </p>
+
+      <!-- ░░ TICKET ░░ -->
+      <article class="ticket" data-ticket>
+        <span class="ticket-watermark" aria-hidden="true">SMS</span>
+        <div class="ticket__top">
+          <div class="ticket__brand">
+            <img src="assets/img/wordmark-ink.webp" alt="SMS" width="1050" height="500" />
+            <small>THE POTTERS TRIBE<br />PRESENTS · 2026</small>
+          </div>
+          <div class="ticket__event">
+            <h3>Singles &amp; Married<br /><em>Summit 2026</em></h3>
+            <div class="theme-mini">The Marital Blueprint</div>
+          </div>
+        </div>
+
+        <div class="ticket__body">
+          <div class="ticket__who">
+            <small>ADMIT ONE · ATTENDEE</small>
+            <h4 data-name>—</h4>
+            <div class="ticket__meta">
+              <div><small>DATE</small><b>Sun, 15 Nov 2026</b></div>
+              <div><small>TIME</small><b>4:00PM WAT</b></div>
+              <div><small>VENUE</small><b>Top Floor, Elyon Primary School</b></div>
+              <div><small>ADDRESS</small><b>10 Ichiegbo St, Rumuorosi, PH</b></div>
+            </div>
+          </div>
+          <div class="ticket__qr">
+            <canvas data-qr width="280" height="280" aria-label="Your QR entry code"></canvas>
+            <small>SCAN AT THE DOOR</small>
+          </div>
+        </div>
+
+        <div class="ticket__id">
+          <small>REGISTRATION ID</small>
+          <strong data-reg-id>—</strong>
+        </div>
+      </article>
+
+      <div class="success-actions">
+        <button class="btn" type="button" data-download>
+          <svg><use href="#i-download" /></svg> Download ticket
+        </button>
+        <button class="btn btn--ghost" type="button" data-copy-id>
+          <svg><use href="#i-copy" /></svg> Copy ID
+        </button>
+        <button class="btn btn--ghost" type="button" data-share>
+          <svg><use href="#i-share" /></svg> Share
+        </button>
+        <button class="btn btn--ghost" type="button" data-print>
+          <svg><use href="#i-ticket" /></svg> Print
+        </button>
+      </div>
+
+      <!-- ░░ SPOUSE BLOCK ░░ -->
+      <section class="success-next" data-spouse-block>
+        <h4><svg><use href="#i-heart" /></svg> Bring your spouse along</h4>
+        <p data-spouse-copy>Generate a secure, single-use invitation. Your spouse keeps their own registration ID and QR code — the link only records that you're married.</p>
+
+        <div data-spouse-action>
+          <button class="btn" type="button" data-create-invite>
+            <svg><use href="#i-link" /></svg> Create spouse invitation
+          </button>
+        </div>
+
+        <div class="invite-box hidden" data-invite-box>
+          <div class="invite-box__row">
+            <input type="text" readonly data-invite-url aria-label="Your spouse invitation link" />
+            <button class="btn btn--sm" type="button" data-copy-invite><svg><use href="#i-copy" /></svg> Copy</button>
+          </div>
+          <div class="invite-box__meta">
+            <span class="expiry"><svg><use href="#i-clock" /></svg> <span data-expiry>Expires in 48 hours</span></span>
+            <span>Single use</span>
+            <span data-invite-status style="color:#8ee8b8">Ready to send</span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <button class="btn btn--sm btn--ghost" type="button" data-share-invite><svg><use href="#i-share" /></svg> Share link</button>
+            <button class="btn btn--sm btn--ghost" type="button" data-revoke-invite>Revoke</button>
+          </div>
+        </div>
+
+        <div class="spouse-link-card hidden" data-spouse-linked>
+          <svg viewBox="0 0 24 24"><use href="#i-heart-fill" /></svg>
+          <div>
+            <b data-spouse-name>—</b>
+            <span data-spouse-meta>Linked registration</span>
+          </div>
+        </div>
+
+        <div class="spouse-link-card hidden" data-invite-pending>
+          <svg viewBox="0 0 24 24" style="fill:var(--champagne)"><use href="#i-clock" /></svg>
+          <div>
+            <b>Invitation awaiting acceptance</b>
+            <span data-pending-meta>The link expires in 48 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="success-next">
+        <h4><svg><use href="#i-info" /></svg> Good to know</h4>
+        <p>Doors open 3:00PM. Bring your QR — printed or on your phone. Your registration ID is the fallback if scanning fails.</p>
+        <div class="success-next__row">
+          <a class="btn btn--sm btn--ghost" href="index.html#linking">How linking works</a>
+          <a class="btn btn--sm btn--ghost" href="lookup.html">Find this ticket later</a>
+          <a class="btn btn--sm btn--ghost" href="mailto:hello@smssummit.org">Contact organizers</a>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer" style="margin-top:0">
+  <div class="container">
+    <div class="footer__bottom" style="margin-top:0;border-top:0">
+      <span>© 2026 <b>The Potters Tribe</b>. Singles &amp; Married Summit 2026</span>
+      <span><a href="index.html">Home</a> · <a href="register.html">Register another</a> · <a href="admin/index.html">Organizers</a></span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" type="button" aria-label="Back to top"><svg><use href="#i-arrow-up" /></svg></button>
+<div id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/mock-api.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/qrcode.min.js"></script>
+<script src="assets/js/sprite.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/success.js"></script>
+</body>
+</html>

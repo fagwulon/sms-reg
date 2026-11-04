@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Spouse invitation — SMS Summit 2026</title>
+<meta name="description" content="Accept your spouse's invitation to link your Singles & Married Summit 2026 registrations." />
+<meta name="theme-color" content="#120607" />
+<meta name="robots" content="noindex" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23650a10'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-style='italic' fill='%23fbf4ec' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="assets/css/base.css?v=1" />
+<link rel="stylesheet" href="assets/css/shell.css?v=1" />
+<link rel="stylesheet" href="assets/css/pages.css?v=3" />
+</head>
+<body>
+
+<div id="preloader" aria-hidden="true">
+  <div class="pl-mark">
+    <img class="pl-mark-img" src="assets/img/wordmark.webp" alt="" width="1050" height="500" />
+    <div class="pl-bar"><i></i></div>
+    <div class="pl-label">Opening invitation</div>
+  </div>
+</div>
+
+<canvas id="petals" aria-hidden="true"></canvas>
+<div id="veil" aria-hidden="true"><img class="v-mark-img" src="assets/img/wordmark.webp" alt="" width="1050" height="500" /></div>
+
+<header class="nav" data-nav>
+  <div class="nav__inner">
+    <a class="brand" href="index.html" aria-label="Home">
+      <img class="brand__mark" src="assets/img/wordmark.webp" alt="SMS — Singles and Married Summit" width="1050" height="500" />
+      <span class="brand__divider" aria-hidden="true"></span>
+      <span class="brand__meta"><b>SUMMIT 2026</b><span>Spouse invitation</span></span>
+    </a>
+    <div class="nav__actions">
+      <a class="btn btn--ghost btn--sm" href="index.html">Home</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<section class="invite-shell">
+  <div class="invite-shell__bg" aria-hidden="true"></div>
+
+  <div class="invite-card" data-invite-card>
+    <!-- loading -->
+    <div class="invite-state" data-loading>
+      <div class="invite-card__icon"><svg viewBox="0 0 24 24"><use href="#i-link" stroke="#fbf4ec" fill="none" stroke-width="2" /></svg></div>
+      <h1>Opening your invitation…</h1>
+      <p class="muted">One moment.</p>
+    </div>
+
+    <!-- invalid / expired -->
+    <div class="invite-state hidden" data-invalid>
+      <div class="invite-card__icon" style="background:radial-gradient(circle at 30% 25%,#b81322,#4a070b)">
+        <svg viewBox="0 0 24 24" style="stroke:#fbf4ec;fill:none;stroke-width:2"><use href="#i-alert" /></svg>
+      </div>
+      <h1>This invitation isn't valid</h1>
+      <p data-invalid-msg>The link may have expired, been revoked, or already been accepted.</p>
+      <div class="success-actions">
+        <a class="btn" href="register.html">Register instead <svg><use href="#i-arrow" /></svg></a>
+        <a class="btn btn--ghost" href="index.html">Back home</a>
+      </div>
+    </div>
+
+    <!-- accept -->
+    <div class="hidden invite-accept" data-accept>
+      <div class="invite-card__icon"><svg viewBox="0 0 24 24"><use href="#i-heart-fill" /></svg></div>
+      <h1><span class="script">You're invited</span><br />to link registrations</h1>
+      <p>
+        <b data-inviter-name style="color:var(--cream-100)">—</b> has invited you to link your
+        Singles &amp; Married Summit 2026 registrations.
+        You'll each keep your own ticket, QR code and check-in record.
+      </p>
+
+      <div class="invite-meta">
+        <div class="invite-meta__row"><span>Invited by</span><b data-meta-name>—</b></div>
+        <div class="invite-meta__row"><span>Their registration</span><b data-meta-id>—</b></div>
+        <div class="invite-meta__row"><span>Invitation expires</span><b data-meta-expiry>—</b></div>
+      </div>
+
+      <!-- mode tabs -->
+      <div class="segmented" data-mode-seg role="tablist" style="width:100%" data-value="new">
+        <span class="segmented__thumb" aria-hidden="true"></span>
+        <label role="tab" tabindex="0"><input type="radio" name="accept_mode" value="new" checked />I'm new — register me</label>
+        <label role="tab" tabindex="0"><input type="radio" name="accept_mode" value="existing" />I already registered</label>
+      </div>
+
+      <!-- existing -->
+      <form class="hidden invite-form" data-existing-form novalidate>
+        <div class="field" data-field="registration_id">
+          <label for="existing-id">My registration ID</label>
+          <input class="input" id="existing-id" name="registration_id" type="text"
+                 placeholder="SMS26-XXXX-0000" autocomplete="off" spellcheck="false"
+                 style="font-family:ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase" required />
+          <span class="field-error" data-error></span>
+        </div>
+        <button class="btn btn--block" type="submit">
+          <span data-existing-label>Link my registration</span>
+          <svg><use href="#i-link" /></svg>
+        </button>
+      </form>
+
+      <!-- new registration -->
+      <form class="hidden invite-form" data-new-form novalidate>
+        <div class="form-grid">
+          <div class="field col-span-2" data-field="full_name">
+            <label for="inv-name">Full name</label>
+            <input class="input" id="inv-name" name="full_name" type="text" autocomplete="name" placeholder="Your full name" required />
+            <span class="field-error" data-error></span>
+          </div>
+          <div class="field" data-field="email">
+            <label for="inv-email">Email</label>
+            <input class="input" id="inv-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+            <span class="field-error" data-error></span>
+          </div>
+          <div class="field" data-field="phone">
+            <label for="inv-phone">Phone</label>
+            <input class="input" id="inv-phone" name="phone" type="tel" inputmode="tel" placeholder="+234 …" required />
+            <span class="field-error" data-error></span>
+          </div>
+          <div class="field col-span-2" data-field="gender">
+            <span class="field-label">Gender</span>
+            <div class="choice-grid">
+              <label class="choice">
+                <input type="radio" name="gender" value="male" required />
+                <span class="choice__top"><span class="choice__icon"><svg><use href="#i-male" /></svg></span><b>Male</b></span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="gender" value="female" required />
+                <span class="choice__top"><span class="choice__icon"><svg><use href="#i-female" /></svg></span><b>Female</b></span>
+              </label>
+            </div>
+            <span class="field-error" data-error></span>
+          </div>
+          <div class="field" data-field="occupation">
+            <label for="inv-occupation">Field / occupation</label>
+            <select class="select" id="inv-occupation" name="occupation" required>
+              <option value="">Select</option>
+              <option>Student</option><option>Tech / Engineering</option><option>Business / Finance</option>
+              <option>Health / Medicine</option><option>Education / Ministry</option><option>Legal / Policy</option>
+              <option>Media &amp; Arts</option><option>Real Estate</option><option>Civil Service / Public Sector</option>
+              <option>Fashion / Beauty</option><option>Other</option>
+            </select>
+            <span class="field-error" data-error></span>
+          </div>
+          <div class="field" data-field="age_range">
+            <label for="inv-age">Age range</label>
+            <select class="select" id="inv-age" name="age_range" required>
+              <option value="">Select</option>
+              <option>18-25</option><option>26-32</option><option>33-39</option><option>40-49</option><option>50+</option>
+            </select>
+            <span class="field-error" data-error></span>
+          </div>
+        </div>
+        <p class="form-note">
+          <svg><use href="#i-info" /></svg>
+          Your marital status is set to <b>Married</b> automatically — this invitation is proof of that.
+        </p>
+        <button class="btn btn--block btn--lg" type="submit">
+          <span data-new-label>Accept &amp; create my ticket</span>
+          <svg><use href="#i-heart" /></svg>
+        </button>
+      </form>
+
+      <p class="tiny" style="color:var(--white-40);max-width:44ch">
+        By accepting, you confirm you are the spouse named in this invitation. The link is single-use and expires.
+      </p>
+    </div>
+
+    <!-- success -->
+    <div class="invite-state hidden" data-done>
+      <div class="success-check" style="width:66px;height:66px"><svg viewBox="0 0 24 24"><use href="#i-check" /></svg></div>
+      <h1>Linked. <span class="script">Beautiful.</span></h1>
+      <p>Your registrations are now connected — two tickets, one household. Both of you keep separate IDs and QR codes.</p>
+      <div class="invite-meta">
+        <div class="invite-meta__row"><span>Your ticket</span><b data-done-id>—</b></div>
+        <div class="invite-meta__row"><span>Linked with</span><b data-done-spouse>—</b></div>
+      </div>
+      <div class="success-actions">
+        <a class="btn" data-done-ticket href="#">View my ticket <svg><use href="#i-arrow" /></svg></a>
+        <a class="btn btn--ghost" href="index.html">Back home</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<button class="to-top" type="button" aria-label="Back to top"><svg><use href="#i-arrow-up" /></svg></button>
+<div id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/mock-api.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/qrcode.min.js"></script>
+<script src="assets/js/sprite.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/invite.js"></script>
+</body>
+</html>

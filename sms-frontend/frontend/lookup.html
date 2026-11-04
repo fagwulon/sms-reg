@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Find my ticket — SMS Summit 2026</title>
+<meta name="description" content="Retrieve your Singles & Married Summit 2026 registration with your registration ID." />
+<meta name="theme-color" content="#120607" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23650a10'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-style='italic' fill='%23fbf4ec' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="assets/css/base.css?v=1" />
+<link rel="stylesheet" href="assets/css/shell.css?v=1" />
+<link rel="stylesheet" href="assets/css/pages.css?v=3" />
+</head>
+<body>
+
+<div id="preloader" aria-hidden="true">
+  <div class="pl-mark">
+    <img class="pl-mark-img" src="assets/img/wordmark.webp" alt="" width="1050" height="500" />
+    <div class="pl-bar"><i></i></div>
+    <div class="pl-label">One moment</div>
+  </div>
+</div>
+
+<canvas id="petals" aria-hidden="true"></canvas>
+<div id="scroll-progress" aria-hidden="true"></div>
+<div id="veil" aria-hidden="true"><img class="v-mark-img" src="assets/img/wordmark.webp" alt="" width="1050" height="500" /></div>
+
+<header class="nav" data-nav>
+  <div class="nav__inner">
+    <a class="brand" href="index.html" aria-label="Home">
+      <img class="brand__mark" src="assets/img/wordmark.webp" alt="SMS — Singles and Married Summit" width="1050" height="500" />
+      <span class="brand__divider" aria-hidden="true"></span>
+      <span class="brand__meta"><b>SUMMIT 2026</b><span>The Marital Blueprint</span></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a class="nav__link" href="index.html">Home</a>
+      <a class="nav__link" href="index.html#summit">The Summit</a>
+      <a class="nav__link" href="register.html">Register</a>
+      <a class="nav__link" href="lookup.html" aria-current="page">Find my ticket</a>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--ghost btn--sm" href="admin/index.html">Organizers</a>
+      <a class="btn btn--sm" href="register.html">Register <svg><use href="#i-arrow" /></svg></a>
+      <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" data-burger>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" data-drawer aria-hidden="true">
+  <nav class="drawer__links" aria-label="Mobile">
+    <a class="drawer__link" href="index.html"><small>01</small> Home</a>
+    <a class="drawer__link" href="register.html"><small>02</small> Register</a>
+    <a class="drawer__link" href="lookup.html"><small>03</small> Find my ticket</a>
+    <a class="drawer__link" href="admin/index.html"><small>04</small> Organizers</a>
+  </nav>
+</div>
+
+<main id="main">
+<section class="reg-page">
+  <div class="reg-page__bg" aria-hidden="true"></div>
+  <div class="container" style="padding-top:clamp(1rem,3vw,2rem)">
+    <div class="lookup-wrap">
+
+      <header class="center" style="display:grid;gap:.9rem;justify-items:center">
+        <span class="eyebrow eyebrow--center reveal">Already registered?</span>
+        <h1 class="h-section reveal" style="--d:60ms;max-width:16ch">Find my <span class="script" style="color:var(--champagne)">ticket</span></h1>
+        <p class="lede reveal" style="--d:120ms;text-align:center">
+          Enter the registration ID from your confirmation (it looks like <b style="color:var(--cream-200)">SMS26-K7QF-0102</b>).
+        </p>
+      </header>
+
+      <div class="reg-card lookup-card reveal" style="--d:160ms">
+        <form data-lookup-form novalidate style="display:grid;gap:1rem">
+          <div class="field" data-field="registration_id">
+            <label for="registration_id">Registration ID</label>
+            <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+              <input class="input" id="registration_id" name="registration_id" type="text"
+                     placeholder="SMS26-XXXX-0000" autocomplete="off" spellcheck="false"
+                     style="flex:1 1 220px;font-family:ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase" required />
+              <button class="btn" type="submit" data-lookup-submit>
+                <span data-lookup-label>Find ticket</span>
+                <svg><use href="#i-search" /></svg>
+              </button>
+            </div>
+            <span class="field-error" data-error></span>
+          </div>
+          <p class="hint">Tip: your registration ID is also in your confirmation screen and on your QR ticket.</p>
+        </form>
+      </div>
+
+      <!-- result -->
+      <div class="reg-card lookup-card hidden" data-result style="--d:200ms">
+        <div class="lookup-result">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+            <span class="status-pill" data-status>Registered</span>
+            <span class="tiny muted" data-registered-at></span>
+          </div>
+
+          <div class="lookup-person">
+            <div class="avatar" data-initials>—</div>
+            <div>
+              <b data-name>—</b>
+              <span data-sub>—</span>
+            </div>
+          </div>
+
+          <div class="lookup-grid">
+            <div><small>Registration ID</small><b data-id>—</b></div>
+            <div><small>Email</small><b data-email>—</b></div>
+            <div><small>Phone</small><b data-phone>—</b></div>
+            <div><small>Marital status</small><b data-marital>—</b></div>
+          </div>
+
+          <div class="spouse-link-card hidden" data-spouse>
+            <svg viewBox="0 0 24 24"><use href="#i-heart-fill" /></svg>
+            <div><b data-spouse-name>—</b><span data-spouse-id>Linked registration</span></div>
+          </div>
+
+          <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+            <a class="btn" data-open-ticket href="#">
+              <svg><use href="#i-ticket" /></svg> Open full ticket
+            </a>
+            <button class="btn btn--ghost" type="button" data-copy-ticket-id>
+              <svg><use href="#i-copy" /></svg> Copy ID
+            </button>
+            <button class="btn btn--ghost" type="button" data-checkin>
+              <svg><use href="#i-check-circle" /></svg> Self check-in
+            </button>
+          </div>
+          <p class="hint" data-checkin-note>Self check-in marks you as present. The desk can also scan your QR on arrival.</p>
+        </div>
+      </div>
+
+      <!-- empty / error -->
+      <div class="reg-card lookup-card hidden" data-empty>
+        <div class="admin-empty">
+          <svg><use href="#i-search" /></svg>
+          <b>No registration found</b>
+          <p data-empty-msg>Check the ID and try again — it's case-insensitive.</p>
+          <a class="btn btn--sm" href="register.html">Register instead <svg><use href="#i-arrow" /></svg></a>
+        </div>
+      </div>
+
+      <div class="reveal" style="display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center">
+        <a class="btn btn--ghost btn--sm" href="index.html#faq">Common questions</a>
+        <a class="btn btn--ghost btn--sm" href="mailto:hello@smssummit.org">Contact organizers</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer" style="margin-top:0">
+  <div class="container">
+    <div class="footer__bottom" style="margin-top:0;border-top:0">
+      <span>© 2026 <b>The Potters Tribe</b>. Singles &amp; Married Summit 2026</span>
+      <span><a href="index.html">Home</a> · <a href="register.html">Register</a> · <a href="admin/index.html">Organizers</a></span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" type="button" aria-label="Back to top"><svg><use href="#i-arrow-up" /></svg></button>
+<div id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/mock-api.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/qrcode.min.js"></script>
+<script src="assets/js/sprite.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/lookup.js"></script>
+</body>
+</html>

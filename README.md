@@ -16,7 +16,6 @@ This is an independent implementation intended to provide the event organizers w
 - Pydantic
 - SQLAlchemy
 - Alembic
-
 ### Database
 - PostgreSQL
 - Supabase (managed PostgreSQL hosting)

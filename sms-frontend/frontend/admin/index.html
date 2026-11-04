@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Organizer portal — SMS Summit 2026</title>
+<meta name="description" content="Organizer dashboard for the Singles & Married Summit 2026 registration system." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0b0405" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23650a10'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-style='italic' fill='%23fbf4ec' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="../assets/css/base.css?v=1" />
+<link rel="stylesheet" href="../assets/css/shell.css?v=1" />
+<link rel="stylesheet" href="../assets/css/pages.css?v=3" />
+<link rel="stylesheet" href="../assets/css/admin.css?v=1" />
+</head>
+<body class="admin-body">
+
+<!-- ══════════ LOGIN ══════════ -->
+<div id="login-screen" class="admin-login">
+  <div class="admin-login__bg" aria-hidden="true"></div>
+  <form class="login-card" data-login-form novalidate>
+    <div class="login-card__brand">
+      <img src="../assets/img/wordmark.webp" alt="SMS" style="height:44px;width:auto" width="1050" height="500" />
+      <small>ORGANIZER PORTAL · 2026</small>
+    </div>
+
+    <div data-login-error class="field-error" style="text-align:center;color:#ffb3b3"></div>
+
+    <div class="field">
+      <label for="login-email">Email</label>
+      <input class="input" id="login-email" name="email" type="email" autocomplete="username" placeholder="you@smssummit.org" required />
+    </div>
+    <div class="field">
+      <label for="login-password">Password</label>
+      <input class="input" id="login-password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+    </div>
+    <label class="check">
+      <input type="checkbox" name="remember" checked />
+      <span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6.5" /></svg></span>
+      <span>Keep me signed in on this device</span>
+    </label>
+
+    <button class="btn btn--block btn--lg" type="submit" data-login-btn>
+      <span data-login-label>Sign in</span>
+      <svg><use href="#i-arrow" /></svg>
+    </button>
+
+    <div class="demo-creds" data-demo-creds hidden>
+      <b>Preview credentials</b>
+      <span>Admin — admin@smssummit.org / Summit2026!</span>
+      <span>Desk — desk@smssummit.org / Desk2026!</span>
+    </div>
+
+    <p class="tiny" style="text-align:center;color:var(--white-40)">
+      Organizers only. All actions are logged against your account.
+    </p>
+    <div style="text-align:center"><a class="link-arrow" href="../index.html" style="font-size:.8rem">← Back to the summit site</a></div>
+  </form>
+</div>
+
+<!-- ══════════ DASHBOARD ══════════ -->
+<div class="admin-shell hidden" id="admin-app">
+
+  <aside class="admin-side" data-admin-side>
+    <a class="brand" href="../index.html" style="margin:0">
+      <img class="brand__mark" src="../assets/img/wordmark.webp" alt="SMS" width="1050" height="500" />
+      <span class="brand__divider"></span>
+      <span class="brand__meta"><b>SUMMIT 26</b><span>Organizer</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Sections">
+      <button class="admin-nav__item is-active" type="button" data-view="dashboard"><svg><use href="#i-chart" /></svg> Overview</button>
+      <button class="admin-nav__item" type="button" data-view="registrations"><svg><use href="#i-users" /></svg> Registrations</button>
+      <button class="admin-nav__item" type="button" data-view="invites"><svg><use href="#i-link" /></svg> Spouse links</button>
+      <button class="admin-nav__item" type="button" data-view="audit"><svg><use href="#i-shield" /></svg> Activity log</button>
+    </nav>
+
+    <div class="admin-side__foot">
+      <div class="admin-user">
+        <div class="avatar" data-user-initials>PA</div>
+        <div>
+          <b data-user-name>Organizer</b>
+          <span data-user-role>organizer</span>
+        </div>
+      </div>
+      <button class="admin-nav__item" type="button" data-logout><svg><use href="#i-logout" /></svg> Sign out</button>
+      <button class="admin-nav__item" type="button" data-reset-demo hidden><svg><use href="#i-refresh" /></svg> Reset demo data</button>
+      <a class="admin-nav__item" href="../index.html" style="color:var(--champagne)"><svg><use href="#i-arrow" /></svg> Back to site</a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <!-- header -->
+    <header class="admin-head">
+      <div>
+        <h1 data-page-title>Overview</h1>
+        <p data-page-sub>Live registration metrics for the Singles &amp; Married Summit 2026.</p>
+      </div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn--sm btn--ghost admin-burger" type="button" data-admin-burger aria-label="Open menu" style="display:none">
+          <svg><use href="#i-grid" /></svg>
+        </button>
+        <button class="btn btn--sm btn--ghost" type="button" data-refresh>
+          <svg><use href="#i-refresh" /></svg> Refresh
+        </button>
+        <button class="btn btn--sm" type="button" data-export>
+          <svg><use href="#i-download" /></svg> Export CSV
+        </button>
+      </div>
+    </header>
+
+    <!-- ░ OVERVIEW ░ -->
+    <section data-view-panel="dashboard" style="display:grid;gap:1rem">
+      <div class="admin-kpis" data-kpis>
+        <div class="kpi kpi--accent">
+          <small>Total registrations</small>
+          <b data-kpi="total">—</b>
+          <svg class="kpi__spark" viewBox="0 0 62 26"><path d="M2 22 12 16 22 18 32 9 42 12 52 5 60 7" /></svg>
+        </div>
+        <div class="kpi">
+          <small>Checked in</small>
+          <b data-kpi="checked_in">—</b>
+          <svg class="kpi__spark" viewBox="0 0 62 26"><path d="M2 20 12 20 22 14 32 15 42 8 52 10 60 4" /></svg>
+        </div>
+        <div class="kpi">
+          <small>Linked couples</small>
+          <b data-kpi="linked">—</b>
+          <svg class="kpi__spark" viewBox="0 0 62 26"><path d="M2 18 12 14 22 15 32 12 42 7 52 9 60 6" /></svg>
+        </div>
+        <div class="kpi">
+          <small>Pending invites</small>
+          <b data-kpi="pending">—</b>
+          <svg class="kpi__spark" viewBox="0 0 62 26"><path d="M2 12 12 16 22 11 32 17 42 13 52 18 60 14" /></svg>
+        </div>
+      </div>
+
+      <div class="admin-charts">
+        <div class="chart-card">
+          <div class="chart-card__head">
+            <h3>Registrations · last 14 days</h3>
+            <div class="chart-card__legend"><span><i style="background:var(--crimson-400)"></i>Registrations</span></div>
+          </div>
+          <div class="bars" data-bars></div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-card__head"><h3>Attendance mix</h3></div>
+          <div class="donut" data-donut>
+            <svg viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="46" stroke="rgba(255,255,255,.08)" stroke-width="12" />
+              <circle data-arc="male" cx="60" cy="60" r="46" stroke="#5c94ff" stroke-dasharray="0 289" />
+              <circle data-arc="female" cx="60" cy="60" r="46" stroke="#eb7ab6" stroke-dasharray="0 289" />
+            </svg>
+            <div class="donut__center"><b data-donut-total>0</b><small>Attendees</small></div>
+          </div>
+          <div class="donut-legend">
+            <div><span><i style="background:#5c94ff"></i>Male</span><b data-legend="male">0</b></div>
+            <div><span><i style="background:#eb7ab6"></i>Female</span><b data-legend="female">0</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-charts" style="grid-template-columns:1fr 1fr">
+        <div class="chart-card">
+          <div class="chart-card__head"><h3>Marital status</h3></div>
+          <div class="donut-legend" data-marital-legend style="gap:.7rem"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card__head"><h3>Top fields</h3></div>
+          <div class="donut-legend" data-occupation-legend style="gap:.7rem"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░ REGISTRATIONS ░ -->
+    <section data-view-panel="registrations" class="admin-panel hidden">
+      <div class="admin-toolbar">
+        <div class="admin-search">
+          <svg><use href="#i-search" /></svg>
+          <input type="search" placeholder="Search name, email, phone or ID…" data-search aria-label="Search registrations" />
+        </div>
+        <div class="admin-filters">
+          <select class="select" data-filter="gender" aria-label="Filter by gender">
+            <option value="">All genders</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+          <select class="select" data-filter="marital_status" aria-label="Filter by marital status">
+            <option value="">All statuses</option>
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+          </select>
+          <select class="select" data-filter="linked" aria-label="Filter by spouse link">
+            <option value="">All links</option>
+            <option value="yes">Linked</option>
+            <option value="no">Not linked</option>
+          </select>
+          <select class="select" data-filter="status" aria-label="Filter by attendance">
+            <option value="">All attendance</option>
+            <option value="registered">Registered</option>
+            <option value="checked_in">Checked in</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th><button type="button" data-sort="full_name">Attendee <svg><use href="#i-chevron-down" /></svg></button></th>
+              <th><button type="button" data-sort="registration_id">Registration ID <svg><use href="#i-chevron-down" /></svg></button></th>
+              <th>Gender</th>
+              <th>Marital</th>
+              <th>Spouse</th>
+              <th><button type="button" data-sort="created_at">Registered <svg><use href="#i-chevron-down" /></svg></button></th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody data-tbody></tbody>
+        </table>
+      </div>
+      <div class="admin-foot">
+        <span data-result-count>—</span>
+        <div class="pager" data-pager></div>
+      </div>
+    </section>
+
+    <!-- ░ INVITES ░ -->
+    <section data-view-panel="invites" class="admin-panel hidden">
+      <div class="admin-toolbar">
+        <div><strong style="font-family:var(--font-display);font-weight:500">Spouse invitations</strong>
+          <span class="tiny muted" style="display:block">Secure, single-use tokens linking two separate registrations.</span></div>
+      </div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr><th>Token</th><th>Inviter</th><th>Status</th><th>Accepted by</th><th>Expires</th><th></th></tr>
+          </thead>
+          <tbody data-invites-body></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ░ AUDIT ░ -->
+    <section data-view-panel="audit" class="hidden">
+      <div class="chart-card">
+        <div class="chart-card__head"><h3>Recent activity</h3><span class="tiny muted">Latest 25 actions</span></div>
+        <div data-audit-list style="display:grid;gap:.4rem"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- detail drawer -->
+<aside class="drawer-detail" data-detail aria-hidden="true">
+  <div class="drawer-detail__head">
+    <h3>Registration detail</h3>
+    <button class="modal__close" type="button" data-detail-close aria-label="Close"><svg><use href="#i-x" /></svg></button>
+  </div>
+  <div class="drawer-detail__body" data-detail-body></div>
+</aside>
+
+<div id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/mock-api.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/qrcode.min.js"></script>
+<script src="../assets/js/sprite.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

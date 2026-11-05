@@ -24,19 +24,20 @@ class Settings(BaseSettings):
     APP_ENV: str = "development"
     API_V1_PREFIX: str = "/api/v1"
 
-    # PostgreSQL (Supabase). postgresql+psycopg://user:pass@host:5432/db
-    DATABASE_URL: str = "sqlite:///./sms26.db"
+    # PostgreSQL (Supabase) — required; no fallback to SQLite.
+    # Format: postgresql+psycopg://user:pass@host:6543/db
+    DATABASE_URL: str
 
-    # Auth
+    # Auth — must be changed from default before running.
     SECRET_KEY: str = "change-me-in-production"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_HOURS: int = 8
 
     # CORS — comma separated list of allowed origins
-    CORS_ORIGINS: str = "http://localhost:5500,http://127.0.0.1:5500"
+    CORS_ORIGINS: str = "https://smssummit26.com"
 
     # Public app URL used to build invitation links
-    APP_URL: str = "http://localhost:5500"
+    APP_URL: str = "https://smssummit26.com"
 
     # Spouse invitation settings
     INVITE_TTL_HOURS: int = 48
@@ -53,8 +54,22 @@ class Settings(BaseSettings):
 
     @field_validator("SECRET_KEY")
     @classmethod
-    def secret_must_not_be_default_in_prod(cls, v: str, info) -> str:
-        # Guard rail only — real enforcement happens via env config in prod.
+    def secret_must_not_be_default(cls, v: str) -> str:
+        if v == "change-me-in-production":
+            raise ValueError(
+                "SECRET_KEY must be set to a random value. "
+                "Generate one with: python -c \"import secrets; print(secrets.token_urlsafe(48))\""
+            )
+        return v
+
+    @field_validator("DATABASE_URL")
+    @classmethod
+    def database_must_be_postgres(cls, v: str) -> str:
+        if not v.startswith("postgresql"):
+            raise ValueError(
+                "DATABASE_URL must be a PostgreSQL connection string. "
+                "SQLite is not supported in production."
+            )
         return v
 
 

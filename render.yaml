@@ -1,0 +1,44 @@
+services:
+  # Frontend — static site
+  - type: web
+    name: sms-summit-frontend
+    runtime: static
+    branch: main
+    buildCommand: ""
+    staticPublishPath: ./sms-frontend/frontend
+    autoDeploy: true
+    pullRequestPreviewsEnabled: true
+    headers:
+      - path: /*.html
+        name: Cache-Control
+        value: no-cache, must-revalidate
+
+  # Backend — FastAPI on Python
+  - type: web
+    name: sms-summit-backend
+    runtime: python
+    branch: main
+    rootDir: ./backend
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app.main:app -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$PORT --timeout 120"
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      - key: APP_ENV
+        value: "production"
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: APP_URL
+        value: "https://sms-summit-frontend.onrender.com"
+      - key: INVITE_TTL_HOURS
+        value: "48"
+      - key: RATE_LIMIT_PER_MINUTE
+        value: "20"
+      - key: QR_PREFIX
+        value: "SMS26"

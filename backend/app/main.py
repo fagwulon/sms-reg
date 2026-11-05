@@ -6,6 +6,10 @@ Swagger UI:   http://localhost:8000/docs
 
 from __future__ import annotations
 
+import logging
+
+from alembic.config import Config as AlembicConfig
+from alembic import command as alembic_command
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +17,8 @@ from fastapi.responses import JSONResponse
 
 from app.core.config import get_settings
 from app.schemas.common import ApiError, error_body
+
+logger = logging.getLogger(__name__)
 
 settings = get_settings()
 
@@ -24,6 +30,17 @@ app = FastAPI(
         "See sms-frontend/frontend/docs/API-CONTRACT.md for the shared contract."
     ),
 )
+
+
+@app.on_event("startup")
+def on_startup():
+    """Run Alembic migrations on startup to ensure the database is up to date."""
+    logger.info("Running database migrations on startup...")
+    import os
+    alembic_cfg = AlembicConfig(os.path.join(os.path.dirname(os.path.dirname(__file__)), "alembic.ini"))
+    alembic_cfg.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+    alembic_command.upgrade(alembic_cfg, "head")
+    logger.info("Database migrations completed.")
 
 # --- CORS (origins come from .env, never hardcoded) ---
 app.add_middleware(

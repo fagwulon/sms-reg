@@ -7,7 +7,7 @@ migrations (`../backend/alembic`) — never edit the production schema by hand.
 ## Connection
 
 ```
-DATABASE_URL=postgresql+psycopg://postgres.[project-ref]:[PASSWORD]@aws-0-[region].pooler.supabase.com:6543/postgres
+DATABASE_URL=postgresql+psycopg://postgres.[project-ref]:[PASSWORD]@aws-0-eu-west-1.pooler.supabase.com:6543/postgres
 ```
 
 Get it from Supabase: Project Settings → Database → Connection string (URI).

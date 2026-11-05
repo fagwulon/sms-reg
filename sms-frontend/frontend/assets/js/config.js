@@ -4,15 +4,14 @@
    ============================================================ */
 window.SMS_CONFIG = {
   /* Base URL of the FastAPI backend.
-     ''  → same origin (use this if you proxy /api through the dev server)
-     e.g. 'http://localhost:8000' during local integration
-     e.g. 'https://api.smssummit26.com' in production           */
-  API_BASE_URL: '',
+     After deploying to Render, update this to your backend's Render URL,
+     e.g. 'https://sms-summit-backend.onrender.com'.
+     During local development you may use 'http://localhost:8000'. */
+  API_BASE_URL: 'https://sms-summit-backend.onrender.com',
 
-  /* When true, all API calls are answered by an in-browser mock
-     (assets/js/mock-api.js) that mirrors the FastAPI contract and
-     persists to localStorage. Flip to false once the backend is up. */
-  USE_MOCK_API: true,
+  /* Set to false to use the real backend API.
+     Keep true only during early development with the mock API. */
+  USE_MOCK_API: false,
 
   /* Live API version prefix — matches the backend router. */
   API_PREFIX: '/api/v1',
@@ -40,11 +39,9 @@ window.SMS_CONFIG = {
     }
   },
 
-  /* Organizer demo accounts (mock mode only). */
-  DEMO_ACCOUNTS: [
-    { email: 'admin@smssummit.org', password: 'Summit2026!', role: 'admin', name: 'Precious A.' },
-    { email: 'desk@smssummit.org', password: 'Desk2026!', role: 'organizer', name: 'Desk Team' }
-  ]
+  /* Demo accounts are removed for production.
+     Organizer accounts are created through the backend API only. */
+  DEMO_ACCOUNTS: []
 };
 
 /* ?demo=0 / ?demo=1 override, handy for QA */

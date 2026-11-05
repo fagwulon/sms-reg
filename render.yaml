@@ -4,10 +4,9 @@ services:
     name: singles-and-married-summit-2026
     runtime: static
     branch: main
+    plan: free
     buildCommand: ""
     staticPublishPath: ./sms-frontend/frontend
-    autoDeploy: true
-    pullRequestPreviewsEnabled: true
     headers:
       - path: /*.html
         name: Cache-Control
@@ -18,10 +17,10 @@ services:
     name: sms-summit-backend
     runtime: python
     branch: main
+    plan: free
     rootDir: ./backend
     buildCommand: "pip install -r requirements.txt"
     startCommand: "gunicorn app.main:app -k uvicorn.workers.UvicornWorker -w 1 -b 0.0.0.0:$PORT --timeout 120 --graceful-timeout 30"
-    autoDeploy: true
     healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION

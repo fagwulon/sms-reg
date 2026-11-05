@@ -25,8 +25,8 @@ class Settings(BaseSettings):
     APP_ENV: str = "development"
     API_V1_PREFIX: str = "/api/v1"
 
-    # PostgreSQL (Neon, Supabase, or any PostgreSQL-compatible DB) — required; no fallback to SQLite.
-    # Format: postgresql+psycopg://user:pass@host:port/db
+    # PostgreSQL (Supabase) — required; no fallback to SQLite.
+    # Format: postgresql+psycopg://user:pass@host:6543/db
     DATABASE_URL: str
 
     # Auth — must be changed from default before running.

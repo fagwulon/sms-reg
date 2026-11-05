@@ -48,6 +48,12 @@ class Settings(BaseSettings):
     # QR payload prefix, e.g. "SMS26|SMS26-XXXX-0001"
     QR_PREFIX: str = "SMS26"
 
+    # Database connection pool settings (optimized for Render free tier: 512MB RAM)
+    DB_POOL_SIZE: int = 2
+    DB_MAX_OVERFLOW: int = 1
+    DB_POOL_RECYCLE: int = 300  # seconds — recycle before server-side timeout
+    DB_POOL_TIMEOUT: int = 10
+
     @property
     def cors_origins_list(self) -> List[str]:
         return [o.strip() for o in self.CORS_ORIGINS.split(",") if o.strip()]

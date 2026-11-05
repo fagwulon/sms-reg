@@ -13,7 +13,20 @@ connect_args = (
     {"check_same_thread": False} if settings.DATABASE_URL.startswith("sqlite") else {}
 )
 
-engine = create_engine(settings.DATABASE_URL, echo=False, connect_args=connect_args, pool_pre_ping=True)
+# Optimized for Render free tier: small pool to fit within 512MB RAM.
+# Free tier services sleep after 15 min of inactivity, so connections may
+# be dropped — pool_pre_ping detects stale connections, and pool_recycle
+# proactively refreshes them before they timeout on the server side.
+engine = create_engine(
+    settings.DATABASE_URL,
+    echo=False,
+    connect_args=connect_args,
+    pool_pre_ping=True,
+    pool_size=settings.DB_POOL_SIZE,
+    max_overflow=settings.DB_MAX_OVERFLOW,
+    pool_recycle=settings.DB_POOL_RECYCLE,
+    pool_timeout=settings.DB_POOL_TIMEOUT,
+)
 
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 

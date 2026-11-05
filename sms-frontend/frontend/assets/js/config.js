@@ -1,16 +1,27 @@
-/* ============================================================
+\/* ============================================================
    SMS SUMMIT 2026 — Frontend configuration
    The only file you need to touch when the backend comes online.
    ============================================================ */
 window.SMS_CONFIG = {
   /* Base URL of the FastAPI backend.
+<<<<<<< HEAD
      After deploying to Render, update this to your backend's Render URL,
      e.g. 'https://sms-summit-backend.onrender.com'.
      During local development you may use 'http://localhost:8000'. */
-  API_BASE_URL: 'https://sms-summit-backend.onrender.com',
+^\  API_BASE_URL:'https://sms-reg-api.onrender.com',
 
   /* Set to false to use the real backend API.
      Keep true only during early development with the mock API. */
+=======
+     ''  → same origin (use this if you proxy /api through the dev server)
+     e.g. 'http://localhost:8000' during local integration
+     e.g. 'https://api.smssummit26.com' in production           */
+  API_BASE_URL:'https://sms-reg-api.onrender.com',
+
+  /* When true, all API calls are answered by an in-browser mock
+     (assets/js/mock-api.js) that mirrors the FastAPI contract and
+     persists to localStorage. Flip to false once the backend is up. */
+>>>>>>> 6ff1ab1 (Connect frontend to live Render API)
   USE_MOCK_API: false,
 
   /* Live API version prefix — matches the backend router. */

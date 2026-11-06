@@ -575,7 +575,134 @@
     }
   }
 
-  /* ============================================================
+   /* ============================================================
+     QR CODE SCANNER
+     ============================================================ */
+
+  let qrScanner = null;
+  let qrScanBusy = false;
+
+  const startQRButton = document.getElementById('start-qr-scanner');
+  const stopQRButton = document.getElementById('stop-qr-scanner');
+  const qrReader = document.getElementById('qr-reader');
+  const qrResult = document.getElementById('qr-scan-result');
+
+  async function stopQRScanner() {
+    if (qrScanner) {
+      try {
+        await qrScanner.stop();
+        qrScanner.clear();
+      } catch (err) {
+        console.warn('Scanner stop:', err);
+      }
+
+      qrScanner = null;
+    }
+
+    if (startQRButton) startQRButton.classList.remove('hidden');
+    if (stopQRButton) stopQRButton.classList.add('hidden');
+  }
+
+  async function verifyScannedQR(decodedText) {
+    if (qrScanBusy) return;
+
+    qrScanBusy = true;
+
+    await stopQRScanner();
+
+    qrResult.textContent = 'Verifying QR code...';
+
+    try {
+      const result = await API.verifyQR(decodedText);
+
+      if (!result.valid) {
+        qrResult.innerHTML = `
+          <div class="alert alert-error">
+            ${escapeHtml(result.message || 'Invalid QR code.')}
+          </div>`;
+        return;
+      }
+
+      const alreadyCheckedIn = result.status === 'checked_in';
+
+      qrResult.innerHTML = `
+        <div class="chart-card" style="padding:1rem">
+          <h3>${escapeHtml(result.full_name)}</h3>
+          <p>Registration ID: ${escapeHtml(result.registration_id)}</p>
+          <p>Status: <strong>${alreadyCheckedIn ? 'Already checked in' : escapeHtml(result.status)}</strong></p>
+          ${
+            alreadyCheckedIn
+              ? '<p>This attendee has already checked in.</p>'
+              : `<button type="button" class="btn btn-primary" id="confirm-qr-checkin">
+                   Confirm Check-in
+                 </button>`
+          }
+        </div>`;
+
+      const confirmButton = document.getElementById('confirm-qr-checkin');
+
+      if (confirmButton) {
+        confirmButton.addEventListener('click', async () => {
+          confirmButton.disabled = true;
+          confirmButton.textContent = 'Checking in...';
+
+          try {
+            await API.updateStatus(result.registration_id, 'checked_in');
+            qrResult.innerHTML = `
+              <div class="alert alert-success">
+                ${escapeHtml(result.full_name)} has been checked in successfully.
+              </div>`;
+            await loadRegistrations();
+            await loadDashboard();
+          } catch (err) {
+            confirmButton.disabled = false;
+            confirmButton.textContent = 'Confirm Check-in';
+            toast(err.message || 'Check-in failed.', 'error');
+          }
+        });
+      }
+
+    } catch (err) {
+      qrResult.textContent = err.message || 'Could not verify QR code.';
+    } finally {
+      qrScanBusy = false;
+    }
+  }
+
+  if (startQRButton) {
+    startQRButton.addEventListener('click', async () => {
+      if (typeof Html5Qrcode === 'undefined') {
+        toast('QR scanner library could not load.', 'error');
+        return;
+      }
+
+      try {
+        qrResult.textContent = 'Starting camera...';
+
+        qrScanner = new Html5Qrcode('qr-reader');
+
+        await qrScanner.start(
+          { facingMode: 'environment' },
+          { fps: 10, qrbox: { width: 250, height: 250 } },
+          verifyScannedQR,
+          () => {}
+        );
+
+        startQRButton.classList.add('hidden');
+        stopQRButton.classList.remove('hidden');
+        qrResult.textContent = 'Camera active. Point it at an attendee QR code.';
+      } catch (err) {
+        qrScanner = null;
+        qrResult.textContent = 'Could not start camera. Check browser camera permissions.';
+        toast('Camera access failed.', 'error');
+      }
+    });
+  }
+
+  if (stopQRButton) {
+    stopQRButton.addEventListener('click', stopQRScanner);
+  }
+ /* ============================================================
      BOOT
      ============================================================ */
   boot();

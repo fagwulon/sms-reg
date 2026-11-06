@@ -188,6 +188,12 @@
       if (useMock()) return mockCall(window.SMSMock.getRegistrationAdmin, id);
       return request('GET', '/admin/registrations/' + encodeURIComponent(id), null, { auth: true });
     },
+    verifyQR(qrPayload) {
+  if (useMock()) return mockCall(window.SMSMock.verifyQR, qrPayload);
+  return request('POST', '/admin/qr/verify', {
+    qr_payload: qrPayload
+  }, { auth: true });
+},
     updateStatus(id, status) {
       if (useMock()) return mockCall(window.SMSMock.updateStatus, id, status);
       return request('PATCH', '/admin/registrations/' + encodeURIComponent(id), { status }, { auth: true });

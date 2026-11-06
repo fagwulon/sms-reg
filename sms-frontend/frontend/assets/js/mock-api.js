@@ -532,6 +532,37 @@
       if (!reg) throw HttpError(404, 'not_found', 'Registration not found.');
       return adminView(db, reg);
     },
+   async verifyQR(qrPayload) {
+  await delay(jitter(300, 520));
+  requireOrganizer(['admin', 'organizer']);
+
+  const parts = String(qrPayload || '').trim().split('|');
+
+  if (parts.length !== 2 || parts[0] !== 'SMS26') {
+    return {
+      valid: false,
+      message: 'Unrecognised QR code.'
+    };
+  }
+
+  const db = loadDB();
+  const reg = findByRegId(db, parts[1]);
+
+  if (!reg) {
+    return {
+      valid: false,
+      message: 'QR code is not valid.'
+    };
+  }
+
+  return {
+    valid: true,
+    registration_id: reg.registration_id,
+    full_name: reg.full_name,
+    status: reg.status,
+    message: 'Valid attendee QR code.'
+  };
+},
 
     async updateStatus(id, status) {
       await delay(jitter(300, 520));

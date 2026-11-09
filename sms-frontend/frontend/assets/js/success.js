@@ -112,6 +112,9 @@
     const inv = raw.spouse_invite || raw.invite || raw.pending_invite || raw;
     if (!inv || !inv.token) return null;
     const base = location.origin + location.pathname.replace(/[^/]*$/, '');
+    // Prefer the backend's invite_url (built from APP_URL) so the link always
+    // points to the correct deployed frontend, even when the page is loaded
+    // from a different origin (e.g. local dev vs production).
     let url = inv.invite_url || inv.url || (base + 'invite.html?token=' + encodeURIComponent(inv.token));
     // preview mode: carry a signed snapshot so the link works on any device
     try {
@@ -126,7 +129,8 @@
       status: inv.status || 'pending',
       expires_at: inv.expires_at || null,
       invite_url: url,
-      display_url: base.replace(/^https?:\/\//, '') + 'invite?token=' + inv.token.slice(0, 6) + '…'
+      display_url: (inv.invite_url || inv.url || '').replace(/^https?:\/\//, '')
+        || (base.replace(/^https?:\/\//, '') + 'invite?token=' + inv.token.slice(0, 6) + '…')
     };
   }
 

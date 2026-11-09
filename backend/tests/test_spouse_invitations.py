@@ -41,13 +41,14 @@ class TestInviteCreation:
         # (json passed as keyword)
         assert res.status_code == 404
 
-    def test_raw_token_not_stored(self, client, db):
+    def test_raw_token_stored_for_retrieval(self, client, db):
+        """Raw token is stored so invite URLs can be rebuilt on the ticket page."""
         rid = register_attendee(client)["registration"]["registration_id"]
         invite = create_invite(client, rid)
-        stored = db.query(SpouseInvitation).all()
-        assert len(stored) == 1
-        assert stored[0].token_hash != invite["token"]
-        assert len(stored[0].token_hash) == 64  # sha256 hex
+        stored = db.query(SpouseInvitation).one()
+        assert stored.token == invite["token"]
+        assert stored.token_hash != invite["token"]
+        assert len(stored.token_hash) == 64  # sha256 hex
 
     def test_preview_does_not_leak_private_fields(self, client):
         rid = register_attendee(client)["registration"]["registration_id"]

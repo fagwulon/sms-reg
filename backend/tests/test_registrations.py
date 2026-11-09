@@ -109,6 +109,30 @@ class TestRetrieval:
         assert res.status_code == 404
         assert res.json()["detail"]["code"] == "not_found"
 
+    def test_pending_invite_included_in_get(self, client):
+        """GET /registrations/{id} returns pending_invite with invite_url."""
+        created = register_attendee(
+            client, marital_status="married", wants_spouse_invite=True
+        )
+        rid = created["registration"]["registration_id"]
+        invite_token = created["spouse_invite"]["token"]
+        res = client.get(f"/api/v1/registrations/{rid}")
+        assert res.status_code == 200
+        body = res.json()
+        assert body["pending_invite"] is not None
+        assert body["pending_invite"]["token"] == invite_token
+        assert "invite_url" in body["pending_invite"]
+        assert invite_token in body["pending_invite"]["invite_url"]
+
+    def test_no_pending_invite_for_single(self, client):
+        """Single attendees have no pending_invite."""
+        created = register_attendee(client, marital_status="single")
+        rid = created["registration"]["registration_id"]
+        res = client.get(f"/api/v1/registrations/{rid}")
+        assert res.status_code == 200
+        body = res.json()
+        assert body["pending_invite"] is None
+
     def test_confirmation_endpoint(self, client):
         created = register_attendee(client)
         rid = created["registration"]["registration_id"]

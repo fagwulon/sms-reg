@@ -2,7 +2,9 @@
 
 Security rules enforced here (all inside a single DB transaction where the
 state changes):
-- tokens are cryptographically random; only their SHA-256 hash is stored
+- tokens are cryptographically random; both raw token and SHA-256 hash are stored
+- the hash is used for verification; the raw token is stored so invite URLs
+  can be reconstructed when the attendee views their registration
 - invitations expire (TTL from INVITE_TTL_HOURS)
 - an invitation can be accepted at most once
 - self-linking is impossible
@@ -66,9 +68,7 @@ def create_invitation(db: Session, registration_id: str) -> tuple[SpouseInvitati
     ).scalar_one_or_none()
     now = datetime.now(timezone.utc)
     if existing and existing.expires_at.replace(tzinfo=timezone.utc) > now:
-        # Return the existing pending invite; the raw token is unrecoverable
-        # (only its hash is stored), so mint a fresh one only when needed.
-        # To keep the contract simple we re-issue: revoke old, create new.
+        # Revoke the old pending invite and create a new one.
         existing.status = "revoked"
         db.flush()
 
@@ -76,6 +76,7 @@ def create_invitation(db: Session, registration_id: str) -> tuple[SpouseInvitati
     inv = SpouseInvitation(
         id=uuid.uuid4(),
         inviter_id=inviter.id,
+        token=token,
         token_hash=hash_token(token),
         status="pending",
         expires_at=now + timedelta(hours=settings.INVITE_TTL_HOURS),

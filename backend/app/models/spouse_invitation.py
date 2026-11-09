@@ -1,4 +1,4 @@
-"""Spouse invitation model. Only the SHA-256 hash of the token is stored."""
+"""Spouse invitation model. The raw token and its SHA-256 hash are both stored."""
 
 from __future__ import annotations
 
@@ -26,7 +26,8 @@ class SpouseInvitation(Base):
     inviter_id: Mapped[uuid.UUID] = mapped_column(
         Uuid, ForeignKey("attendees.id", ondelete="CASCADE"), index=True
     )
-    token_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    token: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    token_hash: Mapped[str] = mapped_column(String(64), index=True)
     status: Mapped[str] = mapped_column(String(10), default="pending", index=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
     accepted_by: Mapped[uuid.UUID | None] = mapped_column(

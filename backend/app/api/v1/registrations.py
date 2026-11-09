@@ -26,14 +26,13 @@ router = APIRouter(prefix="/registrations", tags=["registrations"])
 
 def _pending_invite_brief(db, attendee: Attendee):
     inv = registration_service.get_pending_invite(db, attendee.id)
-    if not inv:
+    if not inv or not inv.token:
         return None
-    # Raw token is not recoverable from the hash; for the creator's own view we
-    # expose the invite_url built from the stored hash reference is impossible,
-    # so the frontend uses the token returned at creation time. Here we return
-    # metadata with the token omitted from logs but still returned to the owner
-    # via the creation response only. For the ticket page we surface expiry.
-    return None  # owner already holds the token from the create response
+    return PendingInviteBrief(
+        token=inv.token,
+        expires_at=inv.expires_at,
+        invite_url=invitation_service.invite_url(inv.token),
+    )
 
 
 @router.post("", response_model=RegistrationCreatedResponse, status_code=201)
@@ -62,7 +61,8 @@ def get_registration(registration_id: str, db: DBDep):
     attendee = registration_service.find_by_registration_id(db, registration_id)
     if not attendee:
         raise ApiError(404, "not_found", "Registration not found.")
-    return RegistrationPublic.from_model(attendee)
+    pending = _pending_invite_brief(db, attendee)
+    return RegistrationPublic.from_model(attendee, pending_invite=pending)
 
 
 @router.get("/{registration_id}/confirmation", response_model=ConfirmationResponse)

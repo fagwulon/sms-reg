@@ -8,7 +8,7 @@ window.SMS_CONFIG = {
 
   /* Where successful registrations land. The backend returns an
      absolute invite URL; this is the frontend fallback. */
-  APP_URL: '',
+  APP_URL: 'https://sms-summit-2026.onrender.com',
 
   EVENT: {
     name: 'Singles & Married Summit',

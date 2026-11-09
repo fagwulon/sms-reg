@@ -7,6 +7,8 @@ Swagger UI:   http://localhost:8000/docs
 from __future__ import annotations
 
 import logging
+import os
+from contextlib import asynccontextmanager
 
 from alembic.config import Config as AlembicConfig
 from alembic import command as alembic_command
@@ -22,6 +24,18 @@ logger = logging.getLogger(__name__)
 
 settings = get_settings()
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Run Alembic migrations on startup to ensure the database is up to date."""
+    logger.info("Running database migrations on startup...")
+    alembic_cfg = AlembicConfig(os.path.join(os.path.dirname(os.path.dirname(__file__)), "alembic.ini"))
+    alembic_cfg.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+    alembic_command.upgrade(alembic_cfg, "head")
+    logger.info("Database migrations completed.")
+    yield
+
+
 app = FastAPI(
     title=settings.APP_NAME,
     version="1.0.0",
@@ -29,18 +43,8 @@ app = FastAPI(
         "Backend for the Singles & Married Summit 2026 registration platform. "
         "See sms-frontend/frontend/docs/API-CONTRACT.md for the shared contract."
     ),
+    lifespan=lifespan,
 )
-
-
-@app.on_event("startup")
-def on_startup():
-    """Run Alembic migrations on startup to ensure the database is up to date."""
-    logger.info("Running database migrations on startup...")
-    import os
-    alembic_cfg = AlembicConfig(os.path.join(os.path.dirname(os.path.dirname(__file__)), "alembic.ini"))
-    alembic_cfg.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
-    alembic_command.upgrade(alembic_cfg, "head")
-    logger.info("Database migrations completed.")
 
 # --- CORS (origins come from .env, never hardcoded) ---
 app.add_middleware(

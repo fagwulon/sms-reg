@@ -8,7 +8,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Query, Response
-from sqlalchemy import func, or_, select
+from sqlalchemy import String, func, or_, select
 
 from app.core.deps import AdminOnly, CurrentOrganizer, DBDep, StaffOnly
 from app.db.transactions import transaction
@@ -72,24 +72,45 @@ def _full(a: Attendee, db) -> RegistrationFull:
 def _find_attendee(db, identifier: str) -> Attendee:
     """Accept either the internal id (reg_xxxxxx) or the registration_id."""
     identifier = identifier.strip()
-    stmt = select(Attendee).where(
-        or_(
-            func.upper(Attendee.registration_id) == identifier.upper(),
-            Attendee.id == _parse_uuid(identifier),
+
+    # Try full UUID first
+    parsed_uuid = _parse_uuid(identifier)
+    if parsed_uuid:
+        a = db.execute(
+            select(Attendee).where(
+                or_(
+                    func.upper(Attendee.registration_id) == identifier.upper(),
+                    Attendee.id == parsed_uuid,
+                )
+            )
+        ).scalar_one_or_none()
+        if a:
+            return a
+
+    # Try registration_id (case-insensitive)
+    a = db.execute(
+        select(Attendee).where(
+            func.upper(Attendee.registration_id) == identifier.upper()
         )
-    ) if _parse_uuid(identifier) else select(Attendee).where(
-        func.upper(Attendee.registration_id) == identifier.upper()
-    )
-    a = db.execute(stmt).scalar_one_or_none()
-    if not a and identifier.startswith("reg_"):
-        # internal short id: reg_<first 6 hex of uuid>
-        for cand in db.execute(select(Attendee)).scalars():
-            if f"reg_{cand.id.hex[:6]}" == identifier:
-                a = cand
-                break
-    if not a:
-        raise ApiError(404, "not_found", "Registration not found.")
-    return a
+    ).scalar_one_or_none()
+    if a:
+        return a
+
+    # Internal short id: reg_<first 6 hex of uuid>
+    # Use a targeted query instead of scanning the full table.
+    if identifier.startswith("reg_") and len(identifier) == 10:
+        hex_prefix = identifier[4:]  # the 6 hex chars after "reg_"
+        # Query attendees whose UUID hex starts with this prefix.
+        # Cast UUID to text and match the first 6 hex characters.
+        a = db.execute(
+            select(Attendee).where(
+                func.left(Attendee.id.cast(String), 6) == hex_prefix
+            )
+        ).scalar_one_or_none()
+        if a:
+            return a
+
+    raise ApiError(404, "not_found", "Registration not found.")
 
 
 def _parse_uuid(s: str):
@@ -109,7 +130,7 @@ def _audit(db, action: str, target: str | None, by: str | None) -> None:
 def export_csv(db: DBDep, organizer: StaffOnly):
     rows = db.execute(select(Attendee).order_by(Attendee.created_at)).scalars().all()
     buf = io.StringIO()
-    writer = csv.writer(buf)
+    writer = csv.writer(buf, quoting=csv.QUOTE_ALL)
     writer.writerow([
         "registration_id", "full_name", "email", "phone", "gender", "marital_status",
         "occupation", "age_range", "city", "status", "spouse_registration_id", "created_at",
@@ -208,12 +229,6 @@ def delete_registration(identifier: str, db: DBDep, organizer: AdminOnly):
             spouse = db.get(Attendee, a.spouse_id)
             if spouse:
                 spouse.spouse_id = None
-            db.execute(
-                select(SpouseRelationship).where(
-                    (SpouseRelationship.attendee_one_id == a.id)
-                    | (SpouseRelationship.attendee_two_id == a.id)
-                )
-            )
             rels = db.execute(
                 select(SpouseRelationship).where(
                     (SpouseRelationship.attendee_one_id == a.id)

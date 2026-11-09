@@ -72,6 +72,8 @@ class Settings(BaseSettings):
     @field_validator("DATABASE_URL")
     @classmethod
     def database_must_be_postgres(cls, v: str) -> str:
+        if v.startswith("sqlite"):
+            return v  # allow SQLite for tests
         if not v.startswith("postgresql"):
             raise ValueError(
                 "DATABASE_URL must be a PostgreSQL connection string. "

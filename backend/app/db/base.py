@@ -17,16 +17,20 @@ connect_args = (
 # Free tier services sleep after 15 min of inactivity, so connections may
 # be dropped — pool_pre_ping detects stale connections, and pool_recycle
 # proactively refreshes them before they timeout on the server side.
-engine = create_engine(
-    settings.DATABASE_URL,
-    echo=False,
-    connect_args=connect_args,
-    pool_pre_ping=True,
-    pool_size=settings.DB_POOL_SIZE,
-    max_overflow=settings.DB_MAX_OVERFLOW,
-    pool_recycle=settings.DB_POOL_RECYCLE,
-    pool_timeout=settings.DB_POOL_TIMEOUT,
-)
+_engine_kwargs = {
+    "echo": False,
+    "connect_args": connect_args,
+}
+if not settings.DATABASE_URL.startswith("sqlite"):
+    _engine_kwargs.update(
+        pool_pre_ping=True,
+        pool_size=settings.DB_POOL_SIZE,
+        max_overflow=settings.DB_MAX_OVERFLOW,
+        pool_recycle=settings.DB_POOL_RECYCLE,
+        pool_timeout=settings.DB_POOL_TIMEOUT,
+    )
+
+engine = create_engine(settings.DATABASE_URL, **_engine_kwargs)
 
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 

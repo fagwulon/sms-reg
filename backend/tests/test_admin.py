@@ -122,8 +122,9 @@ class TestAdminEndpoints:
         assert res.status_code == 200
         assert "text/csv" in res.headers["content-type"]
         lines = res.text.strip().splitlines()
-        assert lines[0] == ("registration_id,full_name,email,phone,gender,marital_status,"
-                            "occupation,age_range,city,status,spouse_registration_id,created_at")
+        # csv.QUOTE_ALL wraps every field in double quotes
+        assert lines[0] == ('"registration_id","full_name","email","phone","gender","marital_status",'
+                            '"occupation","age_range","city","status","spouse_registration_id","created_at"')
         assert len(lines) == 2
 
     def test_delete_detaches_spouse_not_deletes(self, client, admin_token):

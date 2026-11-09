@@ -80,9 +80,10 @@
       setTimeout(() => UI.burstPetals(50), 700);
     }
 
-    // spouse section state
+    // spouse section state — show only when there's a spouse or a pending invite
     const block = $('[data-spouse-block]');
-    if (reg.marital_status !== 'married') {
+    const hasInvite = invite && invite.token;
+    if (!reg.spouse && !hasInvite) {
       hide(block);
     } else if (reg.spouse) {
       show($('[data-spouse-linked]'));

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import uuid
 
-from sqlalchemy import func, select
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.core.config import get_settings
@@ -20,13 +20,13 @@ def _qr_payload(registration_id: str) -> str:
 
 
 def generate_registration_id(db: Session) -> str:
-    """SMS26-XXXX-NNNN — random 4-char infix + zero-padded counter.
+    """SMS26-XXXXXXXX — 8 random chars from an unambiguous alphabet.
 
-    Retries on the (astronomically unlikely) collision of the random part.
+    Uses a purely random ID to avoid the expensive COUNT(*) query on every
+    registration. Collision probability is negligible (30^8 ≈ 6.5×10^11).
     """
-    for _ in range(10):
-        count = db.execute(select(func.count()).select_from(Attendee)).scalar() or 0
-        candidate = f"SMS26-{generate_registration_code_part()}-{count + 1:04d}"
+    for _ in range(5):
+        candidate = f"SMS26-{generate_registration_code_part()}{generate_registration_code_part()}"
         exists = db.execute(
             select(Attendee.id).where(Attendee.registration_id == candidate)
         ).first()
@@ -37,6 +37,7 @@ def generate_registration_id(db: Session) -> str:
 
 def find_by_registration_id(db: Session, registration_id: str) -> Attendee | None:
     rid = registration_id.strip().upper()
+    from sqlalchemy import func
     return db.execute(
         select(Attendee).where(func.upper(Attendee.registration_id) == rid)
     ).scalar_one_or_none()

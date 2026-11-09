@@ -7,6 +7,7 @@
 
   const { $, $$, toast } = window.SMSUI;
   const API = window.SMSApi;
+  const CFG = window.SMS_CONFIG;
 
   const form = $('[data-reg-form]');
   if (!form) return;
@@ -274,7 +275,18 @@
 
     setSubmitting(true);
     try {
+      // Warm up the backend before sending registration data.
+      // On Render free tier, the first request after idle wakes the instance
+      // (10–30 s). Pinging /health in parallel starts that process early so
+      // the actual registration POST hits a warm server.
+      const base = (CFG.API_BASE_URL || '').replace(/\/$/, '');
+      const healthUrl = base + CFG.API_PREFIX.replace(/\/v1$/, '') + '/health';
+      const healthPromise = fetch(healthUrl, { method: 'GET', cache: 'no-store' })
+        .then(r => r.text()).catch(() => {});
+
       const result = await API.register(payload);
+      await healthPromise; // drain the ping so we don't leak it
+
       try {
         sessionStorage.setItem('sms_last_registration', JSON.stringify(result));
       } catch (err) {}
